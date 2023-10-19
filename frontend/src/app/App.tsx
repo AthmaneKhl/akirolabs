@@ -34,7 +34,7 @@ function App() {
   return (
     <AppWrapper>
       <DigitTable selected={selectedDigits} onSelect={handleSelectedDigits} />
-      <button disabled={isDisabled} onClick={() => setInfiniteGeneration(!infiniteGeneration)}>Generate indefinetely</button>
+      <button disabled={isDisabled} onClick={() => setInfiniteGeneration(!infiniteGeneration)}>{infiniteGeneration ? "stop generation" : "Generate indefinetely"}</button>
       <button disabled={isDisabled} onClick={() => setTokens([...tokens, getToken(selectedDigits)])}>Generate</button>
       <TokenList tokens={tokens} />
 
