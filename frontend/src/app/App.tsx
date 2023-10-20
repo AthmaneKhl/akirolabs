@@ -20,7 +20,9 @@ function App() {
     }
 
     intervalRef.current = setInterval(() => {
-      setTokens(tokens => [...tokens, getToken(selectedDigits)])
+      const newToken = getToken(selectedDigits)
+      setTokens(tokens => [...tokens, newToken])
+      handleValidateToken(newToken.token)
     }, 1000)
   }, [infiniteGeneration])
 
@@ -38,14 +40,14 @@ function App() {
 
   const handleValidateToken = async (token: string) => {
     const res = await validate(token)
-    const updatedTokens = tokens.map(t => {
+
+    setTokens(tokens => tokens.map(t => {
       if (t.token === token) {
         return { token, valid: res }
       }
       return t
-    })
+    }))
 
-    setTokens(updatedTokens)
   }
 
   const isDisabled = !selectedDigits.length
