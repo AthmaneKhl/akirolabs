@@ -1,11 +1,28 @@
 import { FC } from "react";
-import { TokenListItem, TokenListSection } from "./tokenList.style";
+import { TokenListItem, TokenListSection, TokenValidateBox } from "./tokenList.style";
 
+interface Token {
+    token: string;
+    valid: true | false | undefined
+}
 
-const TokenList: FC<{ tokens: string[] }> = ({ tokens }) => {
-    return <TokenListSection>
-        {tokens.map(t => <TokenListItem>{t}</TokenListItem>)}
-    </TokenListSection>
+const TokenList: FC<{ tokens: Token[], onValidate: (token: string) => void }> = ({ tokens, onValidate }) => {
+    return <>
+        <TokenListSection>
+            <h4>Tokens list</h4>
+            <div>
+
+                {tokens.map(t => <TokenListItem>
+                    {t.token}
+                    {t.valid === true && <TokenValidateBox valid={t.valid}>✔</TokenValidateBox>}
+                    {t.valid === false && <TokenValidateBox valid={t.valid}>✖</TokenValidateBox>}
+                    {t.valid === undefined && <TokenValidateBox valid={t.valid} onClick={() => onValidate(t.token)}>➤</TokenValidateBox>}
+
+                </TokenListItem>)}
+            </div>
+        </TokenListSection>
+    </>
 }
 
 export { TokenList }
+export type { Token }

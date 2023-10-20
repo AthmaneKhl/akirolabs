@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import { DigitTable } from '../digit/DigitTable'
 import { getToken } from '../utils/generator'
 import { AppWrapper } from './app.style'
-import { TokenList } from '../token/TokenList'
+import { Token, TokenList } from '../token/TokenList'
+import { useApi } from '../api'
 
 function App() {
   const [selectedDigits, setSelectedDigits] = useState<number[]>([])
-  const [tokens, setTokens] = useState<string[]>([])
+  const [tokens, setTokens] = useState<Token[]>([])
   const [infiniteGeneration, setInfiniteGeneration] = useState(false)
+  const [validate] = useApi()
   const intervalRef = useRef<number>(0)
 
   useEffect(() => {
@@ -29,14 +31,33 @@ function App() {
     }
   }
 
+  const handleGenerateSingle = () => {
+    setTokens([...tokens, getToken(selectedDigits)])
+  }
+
+  const handleValidateToken = async (token: string) => {
+    const res = await validate(token)
+    const updatedTokens = tokens.map(t => {
+      if (t.token === token) {
+        return { token, valid: res }
+      }
+      return t
+    })
+
+    setTokens(updatedTokens)
+  }
+
   const isDisabled = !selectedDigits.length
 
   return (
     <AppWrapper>
-      <DigitTable selected={selectedDigits} onSelect={handleSelectedDigits} />
-      <button disabled={isDisabled} onClick={() => setInfiniteGeneration(!infiniteGeneration)}>{infiniteGeneration ? "stop generation" : "Generate indefinetely"}</button>
-      <button disabled={isDisabled} onClick={() => setTokens([...tokens, getToken(selectedDigits)])}>Generate</button>
-      <TokenList tokens={tokens} />
+      <TokenList tokens={tokens} onValidate={handleValidateToken} />
+      <div>
+        <DigitTable selected={selectedDigits} onSelect={handleSelectedDigits} />
+        <button disabled={isDisabled} onClick={() => setInfiniteGeneration(!infiniteGeneration)}>{infiniteGeneration ? "stop generation" : "Generate indefinetely"}</button>
+        <button disabled={isDisabled} onClick={handleGenerateSingle}>Generate single token</button>
+        <button onClick={() => setTokens([])}>Clear all tokens</button>
+      </div>
 
     </AppWrapper>
   )

@@ -1,4 +1,6 @@
-const getToken = (allowedDigits: number[]): string => {
+import { Token } from "../token/TokenList";
+
+const getToken = (allowedDigits: number[]): Token => {
   let token = "";
   const getRandomFromAllowed = () => {
     const max = allowedDigits.length;
@@ -16,7 +18,10 @@ const getToken = (allowedDigits: number[]): string => {
     }
   }
 
-  return token;
+  return {
+    token,
+    valid: undefined,
+  };
 };
 
 export { getToken };
