@@ -4,6 +4,7 @@ import { getToken } from '../utils/generator'
 import { AppWrapper } from './app.style'
 import { Token, TokenList } from '../token/TokenList'
 import { useApi } from '../api'
+import { StatisticsSection } from '../statistics/Statistics'
 
 function App() {
   const [selectedDigits, setSelectedDigits] = useState<number[]>([])
@@ -57,6 +58,7 @@ function App() {
         <button disabled={isDisabled} onClick={() => setInfiniteGeneration(!infiniteGeneration)}>{infiniteGeneration ? "stop generation" : "Generate indefinetely"}</button>
         <button disabled={isDisabled} onClick={handleGenerateSingle}>Generate single token</button>
         <button onClick={() => setTokens([])}>Clear all tokens</button>
+        <StatisticsSection tokens={tokens} />
       </div>
 
     </AppWrapper>
