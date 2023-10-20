@@ -8,10 +8,13 @@ import { StatisticsSection } from '../statistics/Statistics'
 
 function App() {
   const [selectedDigits, setSelectedDigits] = useState<number[]>([])
-  const [tokens, setTokens] = useState<Token[]>([])
+  const [allTokens, setTokens] = useState<Token[]>([])
+  const [filterValid, setFilterValid] = useState(false)
   const [infiniteGeneration, setInfiniteGeneration] = useState(false)
   const [validate] = useApi()
   const intervalRef = useRef<number>(0)
+
+  const tokens = filterValid ? allTokens.filter(t => t.valid) : [...allTokens]
 
   useEffect(() => {
     if (!infiniteGeneration) {
@@ -47,7 +50,6 @@ function App() {
       }
       return t
     }))
-
   }
 
   const isDisabled = !selectedDigits.length
@@ -60,6 +62,7 @@ function App() {
         <button disabled={isDisabled} onClick={() => setInfiniteGeneration(!infiniteGeneration)}>{infiniteGeneration ? "stop generation" : "Generate indefinetely"}</button>
         <button disabled={isDisabled} onClick={handleGenerateSingle}>Generate single token</button>
         <button onClick={() => setTokens([])}>Clear all tokens</button>
+        <button onClick={() => setFilterValid(s => !s)}>{filterValid ? "Show all tokens" : "Show valid tokens"}</button>
         <StatisticsSection tokens={tokens} />
       </div>
 
