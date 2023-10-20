@@ -6,7 +6,7 @@ import { Token } from "../token/TokenList";
 const StatisticsSection: FC<{ tokens: Token[] }> = ({ tokens }) => {
     const totalTokens = tokens.length
     const validTokens = tokens.filter(t => t.valid).length
-    const invalidTokens = totalTokens - validTokens
+    const invalidTokens = tokens.filter(t => t.valid === false).length
 
     return <StatsWrapper>
         <h4>Total</h4>
