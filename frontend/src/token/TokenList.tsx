@@ -12,7 +12,7 @@ const TokenList: FC<{ tokens: Token[], onValidate: (token: string) => void }> = 
             <h4>Tokens list</h4>
             <div>
 
-                {tokens.map(t => <TokenListItem>
+                {tokens.map((t, i) => <TokenListItem key={`${t.token}-${i}`}>
                     {t.token}
                     {t.valid === true && <TokenValidateBox valid={t.valid}>✔</TokenValidateBox>}
                     {t.valid === false && <TokenValidateBox valid={t.valid}>✖</TokenValidateBox>}

@@ -5,6 +5,6 @@ const port = loadEnv("development", "./");
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: Number(port["VITE_PORT"]) ?? 8080,
+    port: Number(port["VITE_PORT"]) || 8080,
   },
 });

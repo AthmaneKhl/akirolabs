@@ -7,7 +7,7 @@ const DigitTable: FC<{ selected: number[], onSelect: (digit: number) => void }> 
         <>
             <h4>Select allowed digits</h4>
             <DigitTableGrid >
-                {new Array(10).fill(null).map((_, i) => <Digit value={i} selected={selected.includes(i)} onClick={() => onSelect(i)} />)}
+                {new Array(10).fill(null).map((_, i) => <Digit key={i} value={i} selected={selected.includes(i)} onClick={() => onSelect(i)} />)}
             </DigitTableGrid>
         </>
     )
